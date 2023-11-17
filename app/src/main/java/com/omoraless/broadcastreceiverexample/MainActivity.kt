@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +26,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         registerReceiver(receiver, filter)
+
+        val buttonLaunch = findViewById<Button>(R.id.btn_launch)
+        buttonLaunch.setOnClickListener {
+            //some manifest declared receivers are not allowed from oreo, that's the reason minSdk is changed to 25 for this sample
+            //using minSdk 26 we can see in the log the following - Background execution not allowed: receiving Intent { act=MyReceiver flg=0x10 } to com.omoraless.broadcastreceiverexample/.MyReceiver
+            sendBroadcast(Intent("MyReceiver"))
+        }
+
+
     }
 
     override fun onDestroy() {
